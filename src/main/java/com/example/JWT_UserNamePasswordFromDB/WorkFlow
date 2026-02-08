@@ -90,41 +90,33 @@ ________________________________________________________________________________
 
  ```
  GET /user/balance
+
  Authorization: Bearer token
  ```
 
- ---
-
- ## Movie 🎬
-
- ```
- Request
-    ↓
- JWT Filter
-    ↓
- token mila
-    ↓
- username nikala
-    ↓
- DB se user load
-    ↓
- SecurityContext set
-    ↓
- Security rule check
- /user/** → USER or ADMIN
-    ↓
- paras = USER
-    ↓
- allowed
-    ↓
- UserController.balance()
-    ↓
- response
- ```
-
- ---
-
- ---
+                            Request
+                               ↓
+                            JWT Filter
+                               ↓
+                            token mila
+                               ↓
+                            username nikala
+                               ↓
+                            DB se user load
+                               ↓
+                            SecurityContext set
+                               ↓
+                            Security rule check
+                            /user/** → USER or ADMIN
+                               ↓
+                            paras = USER
+                               ↓
+                            allowed
+                               ↓
+                            UserController.balance()
+                               ↓
+                            response
+ ---------------------------------------------------------
 
  # 🔴 CASE 4 — ADMIN GET ALL USERS
 
@@ -164,19 +156,12 @@ ________________________________________________________________________________
  response
  ```
 
- ---
-
- ---
-
  # 🧠 Ultimate 10 second memory trick
 
  ```
  Without token → permitAll APIs only
  With token → filter → identity → role → controller
  ```
-
- ---
-
  ---
 
  # 🎯 Tum jo dekh nahi paate but hota hai
@@ -191,9 +176,7 @@ ________________________________________________________________________________
 
  ---
 
- ---
-
- # 🏆 Tumhara system ab kya kar raha hai?
+ 🏆 Tumhara system ab kya kar raha hai?
 
  ✔ identify
  ✔ verify
@@ -202,11 +185,7 @@ ________________________________________________________________________________
 
  Proper enterprise style.
 
- ---
-
- ---
-
- # 🎉 Paras
+ 🎉 Paras
 
  ab tum confuse nahi hoge:
 
@@ -220,14 +199,8 @@ ________________________________________________________________________________
 
  Agar tum chaho, next main tumhe:
 
- 👉 ek **diagram style one-page cheat sheet** bana du
+ 👉 ek diagram style one-page cheat sheet bana du
  jo interview ke pehle dekh ke sab yaad aa jaye.
-
- Bolna:
-
- 👉 **"cheat sheet de do"** 🚀
-
-
 
  ====================================================================================
  ====================================================================================
