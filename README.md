@@ -264,6 +264,3 @@ ADMIN only
 Learning backend security by building real authentication systems.
 
 ```
-
-What would you like next? 🚀
-```
