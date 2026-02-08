@@ -18,12 +18,12 @@ public class AuthController {
     AuthService service;
 
     @PostMapping("/signup")
-    public String register(@RequestBody SignUpRequestDTO dto){
+    public String register(@RequestBody SignUpRequestDTO dto) {
         return service.register(dto);
     }
 
     @PostMapping("/login")
-    public JwtResponseDTO login(@RequestBody SignInRequestDTO dto){
+    public JwtResponseDTO login(@RequestBody SignInRequestDTO dto) {
         return service.login(dto);
     }
 }

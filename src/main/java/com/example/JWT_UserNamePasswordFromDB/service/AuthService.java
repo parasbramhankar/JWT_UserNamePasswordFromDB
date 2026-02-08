@@ -20,8 +20,8 @@ public class AuthService {
     private JwtService jwtService;
     private AuthenticationManager manager;
 
-    public String register(SignUpRequestDTO dto){
-        User user=new User();
+    public String register(SignUpRequestDTO dto) {
+        User user = new User();
         user.setName(dto.getName());
         user.setUsername(dto.getUsername());
         user.setDob(dto.getDob());
@@ -33,7 +33,7 @@ public class AuthService {
         return "user registered";
     }
 
-    public JwtResponseDTO login(SignInRequestDTO dto){
+    public JwtResponseDTO login(SignInRequestDTO dto) {
         manager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         dto.getUsername(),
@@ -41,7 +41,7 @@ public class AuthService {
                 )
         );
 
-        String token= jwtService.generateToken(dto.getUsername());
+        String token = jwtService.generateToken(dto.getUsername());
 
         return new JwtResponseDTO(token);
     }

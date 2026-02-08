@@ -2,7 +2,10 @@ package com.example.JWT_UserNamePasswordFromDB.entity;
 
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
@@ -21,7 +24,7 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false,unique = true,length = 50)
+    @Column(nullable = false, unique = true, length = 50)
     private String username;
 
     private LocalDate dob;

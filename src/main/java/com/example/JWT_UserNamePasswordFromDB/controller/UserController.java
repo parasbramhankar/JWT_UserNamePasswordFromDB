@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @GetMapping("/balance")
-    public String getBalance(){
+    public String getBalance() {
         return "your balance is 100000";
     }
 }

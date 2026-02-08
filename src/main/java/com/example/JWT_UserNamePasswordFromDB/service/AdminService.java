@@ -13,7 +13,7 @@ public class AdminService {
     @Autowired
     UserRepository userRepository;
 
-    public List<User>getAllUser(){
+    public List<User> getAllUser() {
 
         return userRepository.findAll();
     }
