@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
 
-    AdminService service;
+    private final AdminService service;
 
     @GetMapping("/allUsers")
     public ResponseEntity<List<User>> getAllUser() {

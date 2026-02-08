@@ -16,10 +16,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
-    private JwtService jwtService;
-    private AuthenticationManager manager;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager manager;
 
     public String register(SignUpRequestDTO dto) {
         User user = new User();
@@ -27,7 +27,7 @@ public class AuthService {
         user.setUsername(dto.getUsername());
         user.setDob(dto.getDob());
         user.setRole(dto.getRole());
-        user.setPassword(dto.getPassword());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         userRepository.save(user);
 
