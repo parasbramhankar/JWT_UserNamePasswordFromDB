@@ -1,0 +1,331 @@
+ 🧠 Big Picture – Banking JWT App
+
+Tumhare app me ye sab cheezein hain:
+
+✅ Database (users + roles)
+✅ Login system
+✅ JWT token
+✅ Filter
+✅ Role based access
+✅ Controllers
+
+---
+
+---
+
+ 🎬 Full Request Life Cycle
+
+```
+Client → Filter → Security → Controller → Service → DB
+```
+
+and response same path se wapas.
+
+---
+
+---
+
+ 🟢 SCENARIO 1 – USER LOGIN (Token banana)
+
+User abhi login kar raha hai.
+
+---
+
+ Step 1 – Client hits login API
+
+```
+POST /auth/login
+```
+
+Body:
+
+```
+username + password
+```
+
+---
+
+ Step 2 – SecurityConfig allow karta hai
+
+Because:
+
+```
+/auth/** → permitAll()
+```
+
+Toh filter token check nahi karega.
+
+Direct controller me jaane dega.
+
+---
+
+ Step 3 – AuthController
+
+```java
+service.login(dto);
+```
+
+---
+
+ Step 4 – AuthService
+
+Ye sabse important part 🔥
+
+```java
+manager.authenticate(
+   new UsernamePasswordAuthenticationToken(username, password)
+);
+```
+
+---
+
+ Step 5 – AuthenticationManager kya karta hai?
+
+Spring internally:
+
+👉 CustomUserDetailsService ko call karta hai
+👉 DB se user laata hai
+👉 password match karta hai
+
+---
+
+ Agar wrong:
+
+❌ exception
+
+ Agar correct:
+
+✅ success
+
+---
+
+ Step 6 – JWT Generate
+
+```java
+jwtService.generateToken(username);
+```
+
+Token bana.
+
+---
+
+ Step 7 – Token Client ko mil gaya
+
+Ab client bolega:
+
+🧠 “Ab main har request me ye token bhejunga.”
+
+---
+
+---
+
+---
+
+ 🔵 SCENARIO 2 – Secure API Call (Real Game 🔥)
+
+Now user calls:
+
+```
+GET /user/balance
+```
+
+Header:
+
+```
+Authorization: Bearer token
+```
+
+---
+
+---
+
+ Step 1 – Request enters Spring
+
+Controller tak jaane se pehle:
+
+👉 filter chain me jaata hai.
+
+---
+
+ Step 2 – JWT Filter Activated
+
+Because we wrote:
+
+```java
+addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+```
+
+---
+
+Filter bolega:
+
+🧠 “Token dikhao pehle.”
+
+---
+
+---
+
+ Step 3 – Extract Username
+
+```java
+username = jwtService.extractUsername(token);
+```
+
+Example:
+
+```
+paras
+```
+
+---
+
+---
+
+ Step 4 – Load User From DB
+
+```java
+loadUserByUsername("paras");
+```
+
+Now Spring gets:
+
+```
+username = paras
+role = ADMIN
+```
+
+---
+
+---
+
+ Step 5 – Validate Token
+
+Check:
+
+✔ username match
+✔ expired nahi
+✔ signature correct
+
+---
+
+---
+
+ Step 6 – MOST IMPORTANT STEP 🚨
+
+```java
+SecurityContextHolder.getContext()
+    .setAuthentication(...)
+```
+
+Ab Spring ke dimaag me:
+
+```
+paras is LOGGED IN
+Role = ADMIN
+```
+
+🔥🔥🔥
+
+---
+
+---
+
+ Step 7 – Now Authorization Happens
+
+SecurityConfig bolega:
+
+```
+/user/** → USER or ADMIN
+```
+
+paras = ADMIN
+→ allowed ✅
+
+---
+
+---
+
+ Step 8 – Controller Runs
+
+```java
+@GetMapping("/balance")
+```
+
+Now business logic chalega.
+
+---
+
+---
+
+ 🧨 Agar Token Galat Ho?
+
+Filter:
+
+❌ authentication set nahi karega.
+
+Spring bolega:
+
+```
+401 Unauthorized
+```
+
+Controller tak jaane hi nahi dega.
+
+---
+
+---
+
+---
+
+ 🎯 One Line Memory Trick
+
+```
+Login → token milta hai
+Next requests → filter user banata hai
+```
+
+---
+
+---
+
+ 🧠 Internal Responsibility Division
+
+| Layer           | Kaam             |
+| --------------- | ---------------- |
+| Controller      | API              |
+| Service         | logic            |
+| Repository      | DB               |
+| JWT Service     | token            |
+| Filter          | security         |
+| SecurityContext | logged in memory |
+
+---
+
+---
+
+ 🏦 Banking Real Example
+
+Imagine:
+
+You login into bank app.
+
+Then:
+
+* check balance
+* transfer
+* statement
+
+Har baar password nahi dalte ❌
+Token hi identity hota hai ✅
+
+---
+
+---
+
+ 🎉 Tumhari App Ab Ban Gayi
+
+✅ Stateless
+✅ Secure
+✅ Role aware
+✅ DB driven
+✅ Professional
